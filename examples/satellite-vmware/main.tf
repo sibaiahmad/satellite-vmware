@@ -180,8 +180,8 @@ resource "vcd_vapp_vm" "worker_vms" {
   name             = "${local.host_name_worker}-${count.index}"
   computer_name    = "${local.host_name_worker}-${count.index}"
   vapp_template_id = var.rhcos_template_id
-  cpus             = 4
-  memory           = 16384
+  cpus             = 16
+  memory           = 65536
   override_template_disk {
     bus_type    = "paravirtual"
     size_in_mb  = "25600"
