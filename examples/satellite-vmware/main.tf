@@ -143,7 +143,7 @@ resource "vcd_vapp_org_network" "satellite_network" {
 
 # Create VMs
 # Control plane: 8x32, 100GB primary disk
-# Worker nodes:  4x16, 25GB primary, 100GB secondary
+# Worker nodes:  16x64, 25GB primary, 100GB secondary
 # Storage nodes: 16x64, 25 GB primary, 100 GB secondary, 500 GB tertiary (configurable via vars)
 
 resource "vcd_vapp_vm" "control_plane_vms" {
