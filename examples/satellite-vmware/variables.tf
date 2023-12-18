@@ -118,7 +118,7 @@ variable "host_name" {
 }
 
 variable "num_worker_hosts" {
-  description = "Number of worker hosts. These can be used for whatever services will run in the location. Specs: 4x16x25&100"
+  description = "Number of worker hosts. These can be used for whatever services will run in the location. Specs: 16x64x25&100"
   type        = number
   default     = 0
 }
