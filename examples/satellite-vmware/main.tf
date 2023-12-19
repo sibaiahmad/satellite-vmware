@@ -297,7 +297,6 @@ module "satellite-cluster" {
   create_timeout             = var.create_timeout
   update_timeout             = var.update_timeout
   delete_timeout             = var.delete_timeout
-  operating_system           = var.operating_system
   depends_on                 = [module.satellite-host]
 }
 
@@ -319,6 +318,5 @@ module "satellite-cluster-worker-pool" {
   host_labels                = var.worker_pool_host_labels
   create_timeout             = var.create_timeout
   delete_timeout             = var.delete_timeout
-  operating_system           = var.operating_system
   depends_on                 = [module.satellite-cluster]
 }
