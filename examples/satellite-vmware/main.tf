@@ -289,7 +289,7 @@ module "satellite-cluster" {
   cluster                    = var.cluster
   location                   = module.satellite-location.location_id
   kube_version               = var.kube_version
-  zones                      = local.location_zones
+  zones                      = "${local.location_zones}"
   resource_group             = var.resource_group
   worker_count               = var.worker_count
   host_labels                = var.cluster_host_labels
@@ -311,7 +311,7 @@ module "satellite-cluster-worker-pool" {
   create_cluster_worker_pool = var.create_cluster_worker_pool
   worker_pool_name           = var.worker_pool_name
   cluster                    = var.cluster
-  zones                      = local.location_zones
+  zones                      = "${local.location_zones}"
   resource_group             = var.resource_group
   kube_version               = var.kube_version
   worker_count               = var.worker_count
