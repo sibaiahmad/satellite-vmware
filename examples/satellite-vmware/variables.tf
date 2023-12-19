@@ -155,3 +155,121 @@ variable "storage_vm_disk2" {
   type        = number
   default     = 512000
 }
+
+
+########## NEW START ###########
+
+
+
+##################################################
+# IBMCLOUD ROKS Cluster Variables
+##################################################
+
+variable "create_cluster" {
+  description = "Create Cluster: Disable this, not to provision cluster"
+  type        = bool
+  default     = true
+}
+
+variable "cluster" {
+  description = "Cluster Name"
+  type        = string
+  default     = "satellite-ibm-cluster"
+
+  validation {
+    error_message = "Cluster name must begin and end with a letter and contain only letters, numbers, and - characters."
+    condition     = can(regex("^([a-z]|[a-z][-a-z0-9]*[a-z0-9])$", var.cluster))
+  }
+}
+
+variable "kube_version" {
+  description = "Kube Version"
+  default     = "4.7_openshift"
+}
+
+variable "cluster_host_labels" {
+  description = "Labels to add to attach host script"
+  type        = list(string)
+  default     = ["env:prod"]
+
+  validation {
+    condition     = can([for s in var.cluster_host_labels : regex("^[a-zA-Z0-9:]+$", s)])
+    error_message = "Label must be of the form `key:value`."
+  }
+}
+
+variable "worker_count" {
+  description = "Worker Count for default pool"
+  type        = number
+  default     = 1
+}
+
+variable "wait_for_worker_update" {
+  description = "Wait for worker update"
+  type        = bool
+  default     = true
+}
+
+variable "default_worker_pool_labels" {
+  description = "Label to add default worker pool"
+  type        = map(any)
+  default     = null
+}
+
+variable "tags" {
+  description = "List of tags associated with cluster."
+  type        = list(string)
+  default     = null
+}
+
+variable "create_timeout" {
+  type        = string
+  description = "Timeout duration for create."
+  default     = null
+}
+
+variable "update_timeout" {
+  type        = string
+  description = "Timeout duration for update."
+  default     = null
+}
+
+variable "delete_timeout" {
+  type        = string
+  description = "Timeout duration for delete."
+  default     = null
+}
+
+##################################################
+# IBMCLOUD ROKS Cluster Worker Pool Variables
+##################################################
+variable "create_cluster_worker_pool" {
+  description = "Create Cluster worker pool"
+  type        = bool
+  default     = false
+}
+
+variable "worker_pool_name" {
+  description = "Workerpool name"
+  type        = string
+  default     = "tf-worker-pool"
+
+  validation {
+    error_message = "Cluster name must begin and end with a letter and contain only letters, numbers, and - characters."
+    condition     = can(regex("^([a-z]|[a-z][-a-z0-9]*[a-z0-9])$", var.worker_pool_name))
+  }
+
+}
+
+variable "worker_pool_host_labels" {
+  description = "Labels to add to attach host script"
+  type        = list(string)
+  default     = ["env:prod"]
+
+  validation {
+    condition     = can([for s in var.worker_pool_host_labels : regex("^[a-zA-Z0-9:]+$", s)])
+    error_message = "Label must be of the form `key:value`."
+  }
+}
+
+###### NEW END ############
