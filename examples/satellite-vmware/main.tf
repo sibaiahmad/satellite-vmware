@@ -291,7 +291,7 @@ module "satellite-cluster" {
   kube_version               = var.kube_version
   zones                      = local.location_zones
   resource_group             = var.resource_group
-  worker_count               = var.num_worker_hosts
+  worker_count               = var.worker_count
   host_labels                = var.cluster_host_labels
   default_worker_pool_labels = var.default_worker_pool_labels
   create_timeout             = var.create_timeout
@@ -314,7 +314,7 @@ module "satellite-cluster-worker-pool" {
   zones                      = local.location_zones
   resource_group             = var.resource_group
   kube_version               = var.kube_version
-  worker_count               = var.num_worker_hosts
+  worker_count               = var.worker_count
   host_labels                = var.worker_pool_host_labels
   create_timeout             = var.create_timeout
   delete_timeout             = var.delete_timeout
