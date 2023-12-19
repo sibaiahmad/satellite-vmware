@@ -286,7 +286,7 @@ module "satellite-cluster" {
   create_cluster             = var.create_cluster
   cluster                    = var.cluster
   zones                      = var.location_zones
-  location                   = module.satellite-location.location_id
+  location                   = var.location
   resource_group             = var.resource_group
   kube_version               = var.kube_version
   worker_count               = var.worker_count
