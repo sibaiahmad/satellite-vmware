@@ -284,7 +284,7 @@ module "satellite-cluster" {
   //Uncomment following line to point the source to registry level module
   //source = "git::git@github.com:terraform-ibm-modules/terraform-ibm-satellite.git//modules/cluster"
 
-  source                     = "./modules/cluster"
+  source                     = "terraform-ibm-modules/satellite/ibm//modules/cluster"
   create_cluster             = var.create_cluster
   cluster                    = var.cluster
   location                   = module.satellite-location.location_id
@@ -307,7 +307,7 @@ module "satellite-cluster-worker-pool" {
   //Uncomment following line to point the source to registry level module
   //source = "terraform-ibm-modules/satellite/ibm//modules/configure-cluster-worker-pool"
 
-  source                     = "./modules/configure-cluster-worker-pool"
+  source                     = "terraform-ibm-modules/satellite/ibm//modules/configure-cluster-worker-pool"
   create_cluster_worker_pool = var.create_cluster_worker_pool
   worker_pool_name           = var.worker_pool_name
   cluster                    = var.cluster
