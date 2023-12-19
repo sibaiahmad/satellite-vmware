@@ -6,6 +6,11 @@ variable "vcd_user" {
   type        = string
 }
 
+variable "operating_system" {
+  description = "worker Pool OS"
+  type        = string
+}
+
 variable "vcd_password" {
   description = "vCloud Director instance password"
   type        = string
