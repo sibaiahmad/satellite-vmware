@@ -214,58 +214,6 @@ resource "vcd_vm_internal_disk" "worker_disks" {
   depends_on      = [vcd_vapp_vm.worker_vms]
 }
 
-resource "vcd_vapp_vm" "storage_vms" {
-  count            = var.num_storage_hosts
-  vapp_name        = vcd_vapp.vmware_satellite_vapp.name
-  name             = "${local.host_name_storage}-${count.index}"
-  computer_name    = "${local.host_name_storage}-${count.index}"
-  vapp_template_id = var.rhcos_template_id
-  cpus             = var.storage_vm_cpu
-  memory           = var.storage_vm_memory
-  override_template_disk {
-    bus_type    = "paravirtual"
-    size_in_mb  = var.storage_vm_disk0
-    bus_number  = 0
-    unit_number = 0
-    iops        = 0
-  }
-  network {
-    type               = "org"
-    name               = vcd_vapp_org_network.satellite_network.org_network_name
-    ip_allocation_mode = "DHCP"
-    is_primary         = true
-    connected          = true
-  }
-  guest_properties = {
-    # write the hostname and (optionally) SSH key into ignition
-    "guestinfo.ignition.config.data"          = base64encode(replace(replace(module.satellite-location.host_script, local.hostnameInsertionPoint, format(local.hostnameIgnition, base64encode("${local.host_name_storage}-${count.index}"))), local.sshInsertionPoint, local.sshText))
-    "guestinfo.ignition.config.data.encoding" = "base64"
-  }
-}
-
-resource "vcd_vm_internal_disk" "storage_disks" {
-  count           = var.num_storage_hosts
-  vapp_name       = vcd_vapp.vmware_satellite_vapp.name
-  vm_name         = "${local.host_name_storage}-${count.index}"
-  bus_type        = "paravirtual"
-  size_in_mb      = var.storage_vm_disk1
-  bus_number      = 0
-  unit_number     = 1
-  allow_vm_reboot = true
-  depends_on      = [vcd_vapp_vm.storage_vms]
-}
-
-resource "vcd_vm_internal_disk" "storage_disks_2" {
-  count           = var.num_storage_hosts
-  vapp_name       = vcd_vapp.vmware_satellite_vapp.name
-  vm_name         = "${local.host_name_storage}-${count.index}"
-  bus_type        = "paravirtual"
-  size_in_mb      = var.storage_vm_disk2
-  bus_number      = 0
-  unit_number     = 2
-  allow_vm_reboot = true
-  depends_on      = [vcd_vapp_vm.storage_vms]
-}
 
 # Assign control plane hosts to control plane
 module "satellite-host" {
@@ -320,4 +268,57 @@ module "satellite-cluster-worker-pool" {
   operating_system           = var.operating_system
 
   depends_on                 = [module.satellite-cluster]
+}
+#########################
+resource "vcd_vapp_vm" "storage_vms" {
+  count            = var.num_storage_hosts
+  vapp_name        = vcd_vapp.vmware_satellite_vapp.name
+  name             = "${local.host_name_storage}-${count.index}"
+  computer_name    = "${local.host_name_storage}-${count.index}"
+  vapp_template_id = var.rhcos_template_id
+  cpus             = var.storage_vm_cpu
+  memory           = var.storage_vm_memory
+  override_template_disk {
+    bus_type    = "paravirtual"
+    size_in_mb  = var.storage_vm_disk0
+    bus_number  = 0
+    unit_number = 0
+    iops        = 0
+  }
+  network {
+    type               = "org"
+    name               = vcd_vapp_org_network.satellite_network.org_network_name
+    ip_allocation_mode = "DHCP"
+    is_primary         = true
+    connected          = true
+  }
+  guest_properties = {
+    # write the hostname and (optionally) SSH key into ignition
+    "guestinfo.ignition.config.data"          = base64encode(replace(replace(module.satellite-location.host_script, local.hostnameInsertionPoint, format(local.hostnameIgnition, base64encode("${local.host_name_storage}-${count.index}"))), local.sshInsertionPoint, local.sshText))
+    "guestinfo.ignition.config.data.encoding" = "base64"
+  }
+}
+
+resource "vcd_vm_internal_disk" "storage_disks" {
+  count           = var.num_storage_hosts
+  vapp_name       = vcd_vapp.vmware_satellite_vapp.name
+  vm_name         = "${local.host_name_storage}-${count.index}"
+  bus_type        = "paravirtual"
+  size_in_mb      = var.storage_vm_disk1
+  bus_number      = 0
+  unit_number     = 1
+  allow_vm_reboot = true
+  depends_on      = [vcd_vapp_vm.storage_vms]
+}
+
+resource "vcd_vm_internal_disk" "storage_disks_2" {
+  count           = var.num_storage_hosts
+  vapp_name       = vcd_vapp.vmware_satellite_vapp.name
+  vm_name         = "${local.host_name_storage}-${count.index}"
+  bus_type        = "paravirtual"
+  size_in_mb      = var.storage_vm_disk2
+  bus_number      = 0
+  unit_number     = 2
+  allow_vm_reboot = true
+  depends_on      = [vcd_vapp_vm.storage_vms]
 }
