@@ -287,13 +287,12 @@ module "satellite-cluster" {
 
   create_cluster             = var.create_cluster
   cluster                    = var.cluster
-  zones                      = var.location_zones
-  location                   = var.managed_from
-  resource_group             = var.resource_group
+  location                   = module.satellite-location.location_id
   kube_version               = var.kube_version
+  zones                      = local.location_zones
+  resource_group             = var.resource_group
   worker_count               = var.worker_count
-  host_labels                = var.host_labels
-  tags                       = var.tags
+  host_labels                = var.cluster_host_labels
   default_worker_pool_labels = var.default_worker_pool_labels
   create_timeout             = var.create_timeout
   update_timeout             = var.update_timeout
